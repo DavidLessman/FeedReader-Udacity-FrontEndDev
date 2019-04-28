@@ -92,7 +92,7 @@ $(function() {
 
         it('loadFeed completed', function () {
             var feed = document.querySelector('.feed');
-            expect(feed.children.length > 0).toBe(true);
+            expect(feed.querySelector('.entry-link')).toBeDefined();
         });
     });
 
