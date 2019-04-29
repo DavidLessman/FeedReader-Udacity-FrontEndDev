@@ -100,23 +100,40 @@ $(function() {
     describe("New Feed Selection", function () {
         var feed = document.querySelector('.feed');
         var originalFeed = [];
+        var currentFeed = [];
 
         /* TODO: Write a test that ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
          * Remember, loadFeed() is asynchronous.
          */
         beforeEach(function (done) {
-            loadFeed(0);
-            Array.from(feed.children).forEach(function (entry) {
-                originalFeed.push(entry.innerText);
+            loadFeed(0, function () {
+                Array.from(feed.children).forEach(function (entry) {
+                    originalFeed.push(entry.innerText);
+                });
+                console.log(originalFeed[2]);
+                loadFeed(1, function () {
+                    Array.from(feed.children).forEach(function (entry) {
+                        currentFeed.push(entry.innerText);
+                    });
+                    console.log(currentFeed[2]);
+                    done();
+                });
             });
-            loadFeed(1, done);
         });
 
-        it('feed content updated', function () {
-            Array.from(feed.children).forEach(function (entry, index) {
-                expect(entry.innerText === originalFeed[index]).toBe(false);
-            });
+        it('feed content updated', function (done) {
+            console.log(originalFeed[2]);
+            //console.log(currentFeed[2]);
+            //Array.from(feed.children).forEach(function (entry, index) {
+            //    currentFeed.push(entry.innerText);
+            //});
+            console.log(currentFeed[2]);
+            
+            for (i = 0; i < currentFeed.length; i++) {
+                expect(currentFeed[i]).not.toBe(originalFeed[i]);
+            };
+            done();
         });
     });
 }());
